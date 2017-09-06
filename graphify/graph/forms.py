@@ -15,5 +15,5 @@ class GraphifyForm(forms.Form):
                                     initial="FIVE",
                                     widget=forms.Select(attrs={
                                         'class': 'form-control',
-                                         'name': 'display number'
+                                         'name': 'display_num'
                                          }))

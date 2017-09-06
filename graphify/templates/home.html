@@ -9,7 +9,7 @@
   <h1> Graphify </h1>
   <p> allows you to search for the most common word in a text file and
       display it in a graph.</p>
-      <form action=" POST"  enctype="multipart/form-data">
+      <form action=""  enctype="multipart/form-data" method="POST">
         <div class="row">
           <div class="col-md-4" id="centered">
             {{ form.as_p }}
@@ -19,5 +19,11 @@
           </div>
         </div>
       </form>
+
+      {% if error %}
+      <br>
+      <h1>{{ error }}</h1>
+      {% endif %}
+
 </div>
 {% endblock%}
