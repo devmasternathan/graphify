@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+
+{% block body%}
+<div class="container-fluid text-center">
+  <br>
+  <h1> Graphify </h1>
+  <p> allows you to search for the most common word in a text file and
+      display it in a graph.</p>
+      <form action=" POST"  enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-4" id="centered">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <br>
+            <input type="submit" name="graphify">
+          </div>
+        </div>
+      </form>
+</div>
+{% endblock%}
