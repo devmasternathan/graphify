@@ -29,7 +29,7 @@ class HomeView(View):
 			display_num = int(form.cleaned_data['display_num'])
 			word_count = {}
 
-			# check if the fle is a text fil
+			# chck if this file is a text file
 			if '.txt' in str(text_file)[-4:]:
 				try:
 					text_file_data = form.cleaned_data['file_input'].read().decode('utf-8')
@@ -53,7 +53,9 @@ class HomeView(View):
 			else:
 				error = 'Please enter a text file please'
 
-			# flag
+			# make sure the size of the list matches the
+			# total number of bar you want to return
+			# also put data in the right order 
 			labels = []
 			data = []
 			count = len(word_count)
@@ -67,16 +69,11 @@ class HomeView(View):
 			for i in word_count[:display_num]:
 			    data.append(str(i[0]))
 			    labels.append(str(i[1]))
-				
-			#print('labels : ' + str(labels))
-			#print('data : ' + str(data))
-			#print('count : ' + str(count))
-			#print(len(word_count))
 
 		context ={
 			'form':form,
 			'error': error,
-			'labels': labels,
+			'labels': json.dumps(labels),
 			'data': json.dumps(data)
 		}
 		return render(request, self.template_name, context)

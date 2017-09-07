@@ -39,6 +39,7 @@
 {% endblock%}
 
 {% block javascript %}
+{% if labels and data %}
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
@@ -80,4 +81,5 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+{% endif %}
 {% endblock %}
