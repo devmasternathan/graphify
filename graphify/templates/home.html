@@ -3,22 +3,32 @@
 {% load static %}
 
 
+
 {% block body%}
 <div class="container-fluid text-center">
   <br>
   <h1> Graphify </h1>
   <p> allows you to search for the most common word in a text file and
       display it in a graph.</p>
-      <form action=""  enctype="multipart/form-data" method="POST">
-        <div class="row">
-          <div class="col-md-4" id="centered">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <br>
-            <input type="submit" name="graphify">
+      <div class="row">
+        <div class="col-md-4"
+        id="centered">
+        {% if labels and data %}
+        <h2> Data Set </h2>
+        <p id="labels">{{labels}}</p>
+        <p id="data">{{data}}</p>
+        <canvas id="myChart" width="400" height="400"></canvas>
+              <a href="{% url 'graphify:home'%}" class="btn btn-secondary">Try Again</a>
+        {% else %}
+              <form action=""  enctype="multipart/form-data" method="POST">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <br>
+                <input type="submit" name="graphify">
+              </form>
           </div>
         </div>
-      </form>
+        {% endif %}
 
       {% if error %}
       <br>
@@ -27,3 +37,47 @@
 
 </div>
 {% endblock%}
+
+{% block javascript %}
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      {% autoescape off %}
+        labels: {{ data }},
+        datasets: [{
+            label: 'Most Common words',
+            data: {{ labels }},
+      {% endautoescape %}
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+{% endblock %}

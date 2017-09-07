@@ -1,7 +1,9 @@
+from collections import OrderedDict
 from django.shortcuts import render
 from django.views.generic import View
 from django.shortcuts import render
 from .forms import GraphifyForm
+import json
 import string
 
 # Create your views here.
@@ -12,7 +14,9 @@ class HomeView(View):
 	def get(self, request, *args, **kwargs):
 		form = self.form_class(None)
 		context ={
-			'form':form
+			'form':form,
+			'labels': None,
+			'data': None
 		}
 		return render(request, self.template_name, context)
 
@@ -22,38 +26,57 @@ class HomeView(View):
 
 		if form.is_valid():
 			text_file = form.cleaned_data['file_input']
-			display_num = form.cleaned_data['display_num']
+			display_num = int(form.cleaned_data['display_num'])
 			word_count = {}
 
 			# check if the fle is a text fil
 			if '.txt' in str(text_file)[-4:]:
-				print('text file')
 				try:
-
 					text_file_data = form.cleaned_data['file_input'].read().decode('utf-8')
-					# remove all punctuations and make all words lower case
 					translator = text_file_data.maketrans('', '', string.punctuation)
 					text_file_data = text_file_data.translate(translator).lower()
 
 					for word in text_file_data.split():
+						print(word)
 						if word in word_count:
 							word_count[word] += 1
 						else:
 							word_count[word] = 1
+
 				except UnicodeDecodeError as u:
-					error = 'decoding error'
+					error = 'The file you tried to parse has encountered \
+					a unicode decoding error. Please fix the file and \
+					resubmit.'
 				except:
-					error = 'an error  occured'
+					error = 'An unknown error occured.'
 
 			else:
 				error = 'Please enter a text file please'
 
-			print(display_num)
-			print(text_file)
-			print(word_count)
+			# flag
+			labels = []
+			data = []
+			count = len(word_count)
+			word_count = OrderedDict(sorted(word_count.items(), key=lambda t: t[1]))
+			word_count = list(word_count.items())
+			word_count.reverse()
+
+			if display_num > count:
+				display_num = count
+
+			for i in word_count[:display_num]:
+			    data.append(str(i[0]))
+			    labels.append(str(i[1]))
+				
+			#print('labels : ' + str(labels))
+			#print('data : ' + str(data))
+			#print('count : ' + str(count))
+			#print(len(word_count))
 
 		context ={
 			'form':form,
-			'error': error
+			'error': error,
+			'labels': labels,
+			'data': json.dumps(data)
 		}
 		return render(request, self.template_name, context)

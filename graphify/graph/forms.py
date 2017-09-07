@@ -8,8 +8,8 @@ class GraphifyForm(forms.Form):
                                       }))
     display_num = forms.ChoiceField(required=True,
                                     choices = (
-                                    ("FIVE",5),
-                                    ("TEN", 10)
+                                    (5,"five"),
+                                    (10, "ten")
                                     ),
                                     label="",
                                     initial="FIVE",
