@@ -2,3 +2,16 @@
   margin: auto;
   max-width: 300px;
 }
+
+body{
+background-image: url("../bg.png");
+    background-repeat: repeat;
+}
+
+h1{
+color: #008B8B;
+}
+
+p{
+color: white;
+}
