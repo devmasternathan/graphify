@@ -1,18 +1,17 @@
 <!-- Load css to load the navbar below. -->
 {% load staticfiles %}
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Home{% endblock%}</title>
+    <title>{% block title %}graphify{% endblock%}</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="{% static "static/css/mystyles.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/mystyles.css" %}" rel="stylesheet" type="text/css">
 
     {% block navbar %}
       <nav class="navbar navbar-expand-lg navbar-light bg-dark">

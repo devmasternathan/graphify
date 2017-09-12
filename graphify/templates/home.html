@@ -3,6 +3,15 @@
 {% load static %}
 {% block body%}
 <div class="container-fluid text-center">
+  {% if error %}
+  <br>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Holy guacamole!</strong> {{ error }}
+</div>
+  {% endif %}
   <br>
   <h1> Graphify </h1>
   <p> allows you to search for the most common word in a text file and
@@ -23,11 +32,6 @@
       {% endif %}
           </div>
       </div>
-
-        {% if error %}
-        <br>
-        <h1>{{ error }}</h1>
-        {% endif %}
 </div>
 {% endblock%}
 

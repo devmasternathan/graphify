@@ -1,10 +1,19 @@
 from collections import OrderedDict
-from django.shortcuts import render
+from django.http import HttpResponse
 from django.views.generic import View
 from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from .forms import GraphifyForm
 import json
 import string
+
+def error_404(request):
+    return render(request, "404.html", {})
+
+
+def error_500(request):
+    return render(request, "500.html", {})
 
 # Create your views here.
 class HomeView(View):
@@ -29,6 +38,14 @@ class HomeView(View):
 			display_num = int(form.cleaned_data['display_num'])
 			word_count = {}
 
+			if not text_file:
+				context ={
+					'form':form,
+					'labels': None,
+					'data': None
+				}
+				return render(request, self.template_name, context)
+
 			# chck if this file is a text file
 			if '.txt' in str(text_file)[-4:]:
 				try:
@@ -37,7 +54,6 @@ class HomeView(View):
 					text_file_data = text_file_data.translate(translator).lower()
 
 					for word in text_file_data.split():
-						print(word)
 						if word in word_count:
 							word_count[word] += 1
 						else:
@@ -55,7 +71,7 @@ class HomeView(View):
 
 			# make sure the size of the list matches the
 			# total number of bar you want to return
-			# also put data in the right order 
+			# also put data in the right order
 			labels = []
 			data = []
 			count = len(word_count)

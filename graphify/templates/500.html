@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+
+{% block body%}
+<div class="container-fluid text-center">
+  <br>
+  <h1> 500 Error </h1>
+  <p> <small>Sorry but something has gne wrong with the server. Please
+             attempt to press the button below to go to the homepage.</small></p>
+    <br>
+    <a href="{% url 'graphify:home'%}" class="btn btn-secondary">Home</a>
+</div>
+{% endblock%}
